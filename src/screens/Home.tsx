@@ -1,5 +1,5 @@
-import  React from 'react';
-import { Typography, Toolbar, Box, AppBar, Button, TextField, styled } from '@mui/material';
+import React from 'react';
+import { Typography, Box, Button, TextField, styled } from '@mui/material';
 
 const Line = styled('div')({
     marginTop: 20,
@@ -12,57 +12,29 @@ const Line = styled('div')({
 export default function Home() {
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
-                <Toolbar>
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="div"
-                        sx={{ display: { sm: 'block' } }}
-                    >
-                        Graty
-                    </Typography>
-                    <Box sx={{ flexGrow: 1 }} />
-                    {/* <Box>
-                        <IconButton
-                            size="large"
-                            edge="end"
-                            aria-label="account of current user"
-                            aria-controls={'primary-search-account-menu'}
-                            aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
-                            color="inherit"
-                        >
-                            <AccountCircle />
-                        </IconButton>
-                    </Box> */}
-                </Toolbar>
-            </AppBar>
-            <Box sx={{ display: 'flex', margin: 20, flexDirection: 'row' }} >
-                <Box sx={{ display: 'flex', flex: 1, margin: 10, flexDirection: 'column', alignSelf: 'center' }}>
-                    <Typography variant="h2" sx={{ fontWeight: 'bold' }}>GraTy</Typography>
-                    <Typography variant="h4" >Blogerzy, youtuberzy, streamerzy i organizatorzy eventów z grami planszowymi, miejskimi oraz terenowymi.</Typography>
-                </Box>
-                <Box sx={{ display: 'flex', flex: 1, margin: 10, flexDirection: 'column', alignSelf: 'center' }}>
-                    <Typography variant="h3" sx={{ alignSelf: 'center', fontWeight: 'bold' }}>Zaloguj się</Typography>
-                    <TextField
-                        id="outlined-name"
-                        label="Email"
-                        sx={{ marginTop: 2, marginBottom: 2 }}
-                    />
-                    <TextField
-                        id="outlined-uncontrolled"
-                        label="Password"
-                        type="password"
-                        sx={{ marginTop: 2, marginBottom: 2 }}
-                    />
-                    <Button variant="contained" sx={{ marginTop: 2, marginBottom: 2 }}>
-                        Zaloguj
-                    </Button>
-                    <Line />
-                    <Typography sx={{ alignSelf: 'center', }}>Logując się na stronie akceptujesz regulamin.</Typography>
-                </Box>
+        <Box sx={{ display: 'flex', margin: 10, flexDirection: 'row' }} >
+            <Box sx={{ display: 'flex', flex: 1, margin: 10, flexDirection: 'column', alignSelf: 'center' }}>
+                <Typography variant="h2" sx={{ fontWeight: 'bold' }}>GraTy</Typography>
+                <Typography variant="h4" >Blogerzy, youtuberzy, streamerzy i organizatorzy eventów z grami planszowymi, miejskimi oraz terenowymi.</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', flex: 1, margin: 10, flexDirection: 'column', alignSelf: 'center' }}>
+                <Typography variant="h3" sx={{ alignSelf: 'center', fontWeight: 'bold' }}>Zaloguj się</Typography>
+                <TextField
+                    id="outlined-name"
+                    label="Email"
+                    sx={{ marginTop: 2, marginBottom: 2 }}
+                />
+                <TextField
+                    id="outlined-uncontrolled"
+                    label="Password"
+                    type="password"
+                    sx={{ marginTop: 2, marginBottom: 2 }}
+                />
+                <Button variant="contained" sx={{ marginTop: 2, marginBottom: 2 }}>
+                    Zaloguj
+                </Button>
+                <Line />
+                <Typography sx={{ alignSelf: 'center', }}>Logując się na stronie akceptujesz regulamin.</Typography>
             </Box>
         </Box>
     );

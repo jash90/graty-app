@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Toolbar, Box, AppBar, Button, TextField, styled } from '@mui/material';
+import { Typography, Box, Button, TextField, styled } from '@mui/material';
 
 const Line = styled('div')({
     marginTop: 20,
@@ -12,33 +12,6 @@ const Line = styled('div')({
 export default function Register() {
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
-                <Toolbar>
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="div"
-                        sx={{ display: { sm: 'block' } }}
-                    >
-                        Graty
-                    </Typography>
-                    <Box sx={{ flexGrow: 1 }} />
-                    {/* <Box>
-                        <IconButton
-                            size="large"
-                            edge="end"
-                            aria-label="account of current user"
-                            aria-controls={'primary-search-account-menu'}
-                            aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
-                            color="inherit"
-                        >
-                            <AccountCircle />
-                        </IconButton>
-                    </Box> */}
-                </Toolbar>
-            </AppBar>
             <Box sx={{ display: 'flex', margin: 20, flexDirection: 'row' }} >
                 <Box sx={{ display: 'flex', flex: 1, margin: 10, flexDirection: 'column', alignSelf: 'center' }}>
                     <Typography variant="h2" sx={{ fontWeight: 'bold' }}>GraTy</Typography>
@@ -70,6 +43,5 @@ export default function Register() {
                     <Typography sx={{ alignSelf: 'center', }}>Logując się na stronie akceptujesz regulamin.</Typography>
                 </Box>
             </Box>
-        </Box>
     );
 }
