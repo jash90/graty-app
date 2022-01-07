@@ -1,14 +1,9 @@
 import * as React from 'react';
 import { Person, Face, Alarm, FlagSharp, Casino } from '@mui/icons-material';
-import { Card, Typography, IconButton, Toolbar, Box, AppBar, Button, CardActions, CardContent, TextField, styled, Chip } from '@mui/material';
+import { Card, Typography, Toolbar, Box, AppBar, Chip } from '@mui/material';
 
 
 export default function ListGames() {
-
-    const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-
-    };
-
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -41,7 +36,7 @@ export default function ListGames() {
             <Box sx={{ display: 'flex', margin: 10, flexDirection: 'column' }} >
                 <Typography variant="h3" sx={{ fontWeight: 'bold', marginTop: 2, marginBottom: 2 }}>Lista Gier</Typography>
                 <Card sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'column', lg: 'row' }, alignItems: 'center', justifyContent: 'center' }}>
-                    <img src="https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTJWLbLAlTc-uNMrE957GEftv9gWR6Nx2-ckPkX7-8IhPjtXbIYCrQfLrrPfijyxmxA-C81pWs-7roNjAcQ7l26WTattTIp&usqp=CAc" width="200" height="200" />
+                    <img src="https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTJWLbLAlTc-uNMrE957GEftv9gWR6Nx2-ckPkX7-8IhPjtXbIYCrQfLrrPfijyxmxA-C81pWs-7roNjAcQ7l26WTattTIp&usqp=CAc" width="200" height="200" alt="scythe" />
                     <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: 1.5 }}>
                         <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, padding: 2 }}>
                             <Box sx={{ display: 'flex', flex: 1, flexDirection: 'column' }}>

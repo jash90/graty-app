@@ -1,5 +1,5 @@
-import * as React from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import React from "react";
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import AddGame from "./screens/AddGame";
 import Home from "./screens/Home";

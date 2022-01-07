@@ -1,6 +1,5 @@
-import * as React from 'react';
-import { AccountCircle } from '@mui/icons-material';
-import { Card, Typography, IconButton, Toolbar, Box, AppBar, Button, CardActions, CardContent, TextField, styled } from '@mui/material';
+import  React from 'react';
+import { Typography, Toolbar, Box, AppBar, Button, TextField, styled } from '@mui/material';
 
 const Line = styled('div')({
     marginTop: 20,
@@ -11,11 +10,6 @@ const Line = styled('div')({
 })
 
 export default function Home() {
-
-    const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-
-    };
-
 
     return (
         <Box sx={{ flexGrow: 1 }}>

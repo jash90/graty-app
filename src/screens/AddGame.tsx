@@ -1,19 +1,10 @@
 import React from 'react';
-import { AccountCircle } from '@mui/icons-material';
-import { Card, Typography, IconButton, Toolbar, Box, AppBar, Button, CardActions, CardContent, TextField, styled, InputAdornment } from '@mui/material';
+import { Typography, Toolbar, Box, AppBar, Button, TextField, InputAdornment } from '@mui/material';
 import { useState, useCallback } from 'react';
-
-const Line = styled('div')({
-    marginTop: 20,
-    marginBottom: 20,
-    height: 1,
-    width: '100%',
-    backgroundColor: 'grey'
-})
 
 export default function AddGame() {
     const [name, setName] = useState("");
-    const [file, setFile] = useState("");
+    //const [file, setFile] = useState("");
     const [minGamers, setMinGamers] = useState("1");
     const [maxGamers, setMaxGamers] = useState("2");
     const [minTimeGame, setMinTimeGame] = useState("10");
@@ -29,7 +20,7 @@ export default function AddGame() {
     const saveGame = useCallback(() => {
         console.log({ name, minGamers, maxGamers, minTimeGame, maxTimeGame, age, country, avg, integration, complexity, description })
 
-    }, [])
+    }, [name, minGamers, maxGamers, minTimeGame, maxTimeGame, age, country, avg, integration, complexity, description])
 
 
     return (
