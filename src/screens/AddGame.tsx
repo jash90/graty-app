@@ -2,9 +2,10 @@ import React from 'react';
 import { Typography, Box, Button, TextField, InputAdornment } from '@mui/material';
 import { useState, useCallback } from 'react';
 
+
 export default function AddGame() {
     const [name, setName] = useState("");
-    //const [file, setFile] = useState("");
+    const [file, setFile] = useState();
     const [minGamers, setMinGamers] = useState("1");
     const [maxGamers, setMaxGamers] = useState("2");
     const [minTimeGame, setMinTimeGame] = useState("10");
@@ -16,12 +17,18 @@ export default function AddGame() {
     const [complexity, setComplexity] = useState("1");
     const [description, setDescription] = useState("");
     const [code, setCode] = useState("")
+    const [base64, setBase64] = useState()
+
+    console.log(file);
 
 
-    const saveGame = useCallback(() => {
-        console.log({ name, minGamers, maxGamers, minTimeGame, maxTimeGame, age, country, avg, integration, complexity, description })
+    const saveGame = async () => {
+        //    // const { doc, error, loading } = await addDocument('games', { name, minGamers, maxGamers, minTimeGame, maxTimeGame, age, country, avg, integration, complexity, description });
 
-    }, [name, minGamers, maxGamers, minTimeGame, maxTimeGame, age, country, avg, integration, complexity, description])
+        //     console.log(doc, error, loading)
+
+
+    };
 
 
     return (
@@ -41,13 +48,30 @@ export default function AddGame() {
                 onChange={event => setCode(event.target.value)}
                 sx={{ margin: 2 }}
             />
-            {/* <TextField
-                    id="outlined-name"
-                    type="file"
-                    value={file}
-                    onChange={event => setFile(event.target.value)}
-                    sx={{ margin: 2, }}
-                /> */}
+            {!!base64 && <img width="100" height="100" id='base64image' src={base64} />}
+            <TextField
+                id="outlined-name"
+                type="file"
+                onChange={(e: any) => {
+                    if (e.target.files.length > 0) {
+                        if (!!e.target.files[0]) {
+                            console.log(e.target.files[0])
+                            let reader = new FileReader();
+                            reader.readAsDataURL(e.target.files[0]);
+                            reader.onloadend = () => {
+                                setBase64(reader.result as any)
+
+                                setFile(reader.result as any)
+                            }
+                            // reader.onerror = (error) => {
+                            //     console.log('Error: ', error);
+                            // };
+                        }
+
+                    }
+                }}
+                sx={{ margin: 2, }}
+            />
             <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
                 <Box>
                     <TextField
