@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Person, Face, Alarm, FlagSharp, Casino } from '@mui/icons-material';
+import { Person, Face, Alarm, FlagSharp } from '@mui/icons-material';
 import { Card, Typography, Box, Chip } from '@mui/material';
-import { getCollection } from '../services/firebase';
+import { getCollection, getLink } from '../services/firebase';
 import { Game } from '../models/Game';
 import IconCounter from '../components/IconCounter';
 
@@ -10,9 +10,9 @@ export default function ListGames() {
     const [list, setList] = useState([])
 
     useEffect(() => {
-        getCollection('games').then(data => {
+        getCollection('games').then((data: any) => {
             setList(data.data)
-            console.log(data.data)
+            console.log({ data: data.data })
         })
 
 

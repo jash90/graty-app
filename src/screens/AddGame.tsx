@@ -1,6 +1,7 @@
 import React from 'react';
 import { Typography, Box, Button, TextField, InputAdornment } from '@mui/material';
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
+import { addDocument, addImage } from '../services/firebase';
 
 
 export default function AddGame() {
@@ -16,17 +17,17 @@ export default function AddGame() {
     const [integration, setIntegration] = useState("1");
     const [complexity, setComplexity] = useState("1");
     const [description, setDescription] = useState("");
-    const [code, setCode] = useState("")
-    const [base64, setBase64] = useState()
-
-    console.log(file);
+    const [code, setCode] = useState("");
+    const [preview, setPreview] = useState();
 
 
     const saveGame = async () => {
-        //    // const { doc, error, loading } = await addDocument('games', { name, minGamers, maxGamers, minTimeGame, maxTimeGame, age, country, avg, integration, complexity, description });
+        const { doc, error, loading } = await addDocument('games', { name, minGamers, maxGamers, minTimeGame, maxTimeGame, age, country, avg, integration, complexity, description });
 
-        //     console.log(doc, error, loading)
-
+        if (!!doc) {
+            const { data, error } = await addImage(doc.id, file);
+            console.log(data, error)
+        }
 
     };
 
@@ -48,30 +49,27 @@ export default function AddGame() {
                 onChange={event => setCode(event.target.value)}
                 sx={{ margin: 2 }}
             />
-            {!!base64 && <img width="100" height="100" id='base64image' src={base64} />}
-            <TextField
-                id="outlined-name"
-                type="file"
-                onChange={(e: any) => {
-                    if (e.target.files.length > 0) {
-                        if (!!e.target.files[0]) {
-                            console.log(e.target.files[0])
-                            let reader = new FileReader();
-                            reader.readAsDataURL(e.target.files[0]);
-                            reader.onloadend = () => {
-                                setBase64(reader.result as any)
-
-                                setFile(reader.result as any)
+            <Box>
+                {!!preview && <img width="100" height="100" id='base64image' src={preview} alt={"cover-board-game"} />}
+                <TextField
+                    id="outlined-name"
+                    type="file"
+                    onChange={(e: any) => {
+                        if (e.target.files.length > 0) {
+                            if (!!e.target.files[0]) {
+                                let reader = new FileReader();
+                                reader.readAsDataURL(e.target.files[0]);
+                                reader.onloadend = () => {
+                                    setPreview(reader.result as any)
+                                    setFile(e.target.files[0])
+                                }
                             }
-                            // reader.onerror = (error) => {
-                            //     console.log('Error: ', error);
-                            // };
-                        }
 
-                    }
-                }}
-                sx={{ margin: 2, }}
-            />
+                        }
+                    }}
+                    sx={{ margin: 2, }}
+                />
+            </Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
                 <Box>
                     <TextField

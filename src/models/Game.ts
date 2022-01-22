@@ -11,4 +11,6 @@ export interface Game {
     minTimeGame: number;
     name: string
     tags: string[];
+    link: string;
+    id: string;
 }

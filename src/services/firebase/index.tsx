@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app"
-import { addDoc, collection, DocumentData, getDocs, getFirestore, QuerySnapshot, } from "firebase/firestore"
+import { addDoc, collection, getDocs, getFirestore, } from "firebase/firestore"
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage"
 import "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -21,6 +22,9 @@ export const app = initializeApp(firebaseConfig);
 
 export const db = getFirestore(app);
 
+export const storage = getStorage();
+
+
 
 export const addDocument = async (key: string, data: object) => {
     let doc, error, loading = true;
@@ -38,14 +42,26 @@ export const addDocument = async (key: string, data: object) => {
 
 
 export const getCollection = async (key: string) => {
-    let data: any[] = [], querySnapshot: any, error: any;
+    let data: any, error: any;
 
     try {
-        querySnapshot = await getDocs(collection(db, key));
+        data = await getDocs(collection(db, key));
 
+        data = data.docs.map((doc: any) => {
+            let link = "https://cdn-icons-png.flaticon.com/512/3430/3430778.png"
+            getLink(doc.id).then(image => {
+                if (!!image?.data) {
+                    link = image.data
 
-        querySnapshot = querySnapshot.docs.map((doc: any) => {
-            return doc.data();
+                    console.log("dupa", image.data)
+                }
+            }).catch(error => {
+                console.log("dupa", error)
+
+            })
+
+            return { ...doc.data(), id: doc.id, link };
+
         })
 
     } catch (err) {
@@ -53,6 +69,39 @@ export const getCollection = async (key: string) => {
     }
 
 
-    return { data: querySnapshot, error };
+    return { data, error };
+
+}
+
+export const addImage = async (key: string, file: any) => {
+    let data: any, error: any;
+    try {
+        const storageRef = ref(storage, key);
+
+        data = await uploadBytes(storageRef, file);
+
+        console.log('Uploaded a blob or file!', data);
+
+    } catch (err) {
+        error = err;
+
+    }
+
+    return { data, error };
+
+}
+
+export const getLink = async (key: string) => {
+    let data: any, error: any;
+
+    try {
+        data = await getDownloadURL(ref(storage, key));
+
+    } catch (err) {
+
+    }
+
+
+    return { data, };
 
 }
