@@ -12,5 +12,5 @@ export interface Game {
     name: string
     tags: string[];
     link: string;
-    id: string;
+    uid: string;
 }

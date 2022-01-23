@@ -1,7 +1,12 @@
 import React from 'react';
-import { Typography, Toolbar, Box, AppBar, Button, Link } from '@mui/material';
+import { Typography, Toolbar, Box, AppBar, Link, Button } from '@mui/material';
+import { userState } from '../atoms';
+import { useRecoilState } from 'recoil';
+import ButtonLink from './ButtonLink';
 
 export default function NavigationBar() {
+
+    const [user, setUser] = useRecoilState(userState);
 
     return (
         <AppBar position="static">
@@ -15,26 +20,21 @@ export default function NavigationBar() {
                     Graty
                 </Typography>
                 <Box sx={{ flexGrow: 1 }} />
-                <Button variant="text" >
-                    <Link href="/" sx={{ color: 'white' }}>
-                        Strona główna
-                    </Link>
-                </Button>
-                <Button variant="text">
-                    <Link href="/register" sx={{ color: 'white' }}>
-                        Rejestracja
-                    </Link>
-                </Button>
-                <Button variant="text">
-                    <Link href="/addgame" sx={{ color: 'white' }}>
-                        Dodaj Grę
-                    </Link>
-                </Button>
-                <Button variant="text" >
-                    <Link href="/listgames" sx={{ color: 'white' }}>
-                        Lista Gier
-                    </Link>
-                </Button>
+                <ButtonLink to="/">
+                    Strona główna
+                </ButtonLink>
+                <ButtonLink to="/register" mustBeLogout>
+                    Rejestracja
+                </ButtonLink>
+                <ButtonLink to="/addgame" mustBeRoot>
+                    Dodaj Grę
+                </ButtonLink>
+                <ButtonLink to="/listgames">
+                    Lista Gier
+                </ButtonLink>
+                <ButtonLink to="/loangame" mustBeAuth>
+                    Wypożycz Grę
+                </ButtonLink>
             </Toolbar>
         </AppBar >
     );

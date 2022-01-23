@@ -64,7 +64,7 @@ export default function Register() {
 
 
     return (
-        <Box sx={{ display: 'flex', margin: 20, flexDirection: 'row' }} >
+        <Box sx={{ display: 'flex', margin: 10, flexDirection: 'row' }} >
             <Box sx={{ display: 'flex', flex: 1, margin: 10, flexDirection: 'column', alignSelf: 'center' }}>
                 <Typography variant="h2" sx={{ fontWeight: 'bold' }}>GraTy</Typography>
                 <Typography variant="h4" >Blogerzy, youtuberzy, streamerzy i organizatorzy eventów z grami planszowymi, miejskimi oraz terenowymi.</Typography>

@@ -4,22 +4,18 @@ import { Card, Typography, Box, Chip } from '@mui/material';
 import { getCollection } from '../services/firebase';
 import { Game } from '../models/Game';
 import IconCounter from '../components/IconCounter';
+import { useRecoilState } from 'recoil';
+import { gamesState } from '../atoms';
 
 
 export default function ListGames() {
-    const [list, setList] = useState([])
-
-    useEffect(() => {
-        getCollection('games').then((data: any) => {
-            setList(data.data)
-        })
-    }, []);
+    const [list, setList] = useRecoilState(gamesState);
 
     return (
         <Box sx={{ display: 'flex', margin: 10, flexDirection: 'column' }} >
             <Typography variant="h3" sx={{ fontWeight: 'bold', marginTop: 2, marginBottom: 2 }}>Lista Gier</Typography>
-            {list.map((game: Game) => <Card sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'column', lg: 'row' }, alignItems: 'center', marginTop: 1, marginBottom: 1, width: '100%' }} key={game.id}>
-                <img src={game.link} width="200" height="200" alt={game.id} />
+            {list.map((game: Game) => <Card sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'column', lg: 'row' }, alignItems: 'center', marginTop: 1, marginBottom: 1, width: '100%' }} key={game.uid}>
+                <img src={game.link} width="200" height="200" alt={game.uid} />
                 <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: 1.5, width: '100%' }}>
                     <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, padding: 2, width: '100%' }}>
                         <Box sx={{ display: 'flex', flex: 1, flexDirection: 'column' }}>

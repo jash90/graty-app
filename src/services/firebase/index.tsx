@@ -43,19 +43,22 @@ export const addDocument = async (key: string, data: object) => {
 
 
 
-export const getCollection = async (key: string) => {
+export const getCollection = async (key: string, defaultIcon = "") => {
     let data: any, error: any;
 
     try {
         data = await getDocs(collection(db, key));
 
+        console.log(data)
+
         data = data.docs.map((doc: any) => {
-            return { ...doc.data(), id: doc.id };
+            console.log(doc.id, doc.data())
+            return { ...doc.data(), uid: doc.id };
 
         })
 
         for (let x = 0; x < data.length; x++) {
-            data[x].link = await getLink(data[x].id);
+            data[x].link = await getLink(data[x].id, defaultIcon);
         }
 
     } catch (err) {
@@ -85,14 +88,14 @@ export const addImage = async (key: string, file: any) => {
 
 }
 
-export const getLink = async (key: string) => {
+export const getLink = async (key: string, defaultIcon = "") => {
     let data: any;
 
     try {
         data = await getDownloadURL(ref(storage, key));
 
     } catch (err) {
-        data = "https://cdn-icons-png.flaticon.com/512/3430/3430778.png";
+        data = defaultIcon;
     }
 
 
@@ -100,10 +103,10 @@ export const getLink = async (key: string) => {
 
 }
 
-export const signUp = async (email: string, password: string): Promise<{data:any, error:any}> => {
+export const signUp = async (email: string, password: string): Promise<{ data: any, error: any }> => {
     try {
         const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
-        return {data : userCredentials.user, error:''}
+        return { data: userCredentials.user, error: '' }
     } catch (error) {
         return { data: '', error }
     }
@@ -112,8 +115,11 @@ export const signUp = async (email: string, password: string): Promise<{data:any
 export const signIn = async (email: string, password: string): Promise<{ data: any, error: any }> => {
     try {
         const userCredentials = await signInWithEmailAndPassword(auth, email, password)
-        return { data: userCredentials.user, error: '' }
+        let admins: any = await getCollection("admins")
+        admins = admins.data.map((admin: any) => admin.id)
+        console.log({ admins, uid: userCredentials.user.uid, admin: admins.includes(userCredentials.user.uid) })
+        return { data: { ...userCredentials.user.toJSON(), admin: admins.includes(userCredentials.user.uid) }, error: null }
     } catch (error) {
-        return { data: '', error }
+        return { data: null, error }
     }
 }

@@ -4,11 +4,14 @@ import { BrowserRouter } from "react-router-dom";
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { RecoilRoot } from 'recoil';
 
 
 ReactDOM.render(
   <BrowserRouter>
+    <RecoilRoot>
       <App />
+    </RecoilRoot>
   </BrowserRouter>,
   document.getElementById('root')
 );

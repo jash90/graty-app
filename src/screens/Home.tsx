@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Typography, Box, Button, TextField, styled } from '@mui/material';
 import { useFormik } from 'formik';
 import { SignInError } from '../models/SignInError';
 import * as Yup from 'yup'
-import { signIn } from '../services/firebase';
+import { getCollection, signIn } from '../services/firebase';
 import { handleChangeAndResetPassword } from '../utils/function';
+import { userState, gamesState } from '../atoms';
+import { useRecoilState } from 'recoil';
 
 const Line = styled('div')({
     marginTop: 20,
@@ -15,6 +17,17 @@ const Line = styled('div')({
 })
 
 export default function Home() {
+    const [user, setUser] = useRecoilState(userState);
+    const [list, setList] = useRecoilState(gamesState);
+
+    useEffect(() => {
+        getCollection('games', "https://cdn-icons-png.flaticon.com/512/3430/3430778.png").then((data: any) => {
+            setList(data.data)
+            console.log(data.data)
+        })
+    }, [])
+
+
 
     const formik = useFormik({
         initialValues: {
@@ -35,8 +48,10 @@ export default function Home() {
         validateOnChange: false,
         onSubmit: async ({ email, password }) => {
             const { data, error } = await signIn(email, password);
+            console.log({ data, error });
             if (!error) {
-                console.log({ data })
+                setUser(JSON.parse(JSON.stringify(data)))
+                console.log(user)
             } else {
                 console.log(error.code);
                 switch (error.code as string) {
@@ -66,7 +81,7 @@ export default function Home() {
             </Box>
 
             <Box sx={{ display: 'flex', flex: 1, margin: 10, flexDirection: 'column', alignSelf: 'center' }}>
-                <form onSubmit={formik.handleSubmit} style={{ display: "flex", flexDirection: "column" }}>
+                {!user && (<form onSubmit={formik.handleSubmit} style={{ display: "flex", flexDirection: "column" }}>
                     <Typography variant="h3" sx={{ alignSelf: 'center', fontWeight: 'bold' }}>Zaloguj się</Typography>
                     <TextField
                         label="Email"
@@ -77,7 +92,6 @@ export default function Home() {
                         helperText={formik.touched.email && formik.errors.email}
                     />
                     <TextField
-
                         label="Password"
                         type="password"
                         sx={{ marginTop: 2, marginBottom: 2 }}
@@ -91,7 +105,8 @@ export default function Home() {
                     </Button>
                     <Line />
                     <Typography sx={{ alignSelf: 'center', }}>Logując się na stronie akceptujesz regulamin.</Typography>
-                </form>
+                </form>)}
+                {!!user && <Typography variant="h4" sx={{ alignSelf: 'center', fontWeight: 'bold' }}>{`Witaj ${user.email.substring(0, user.email.indexOf("@"))}!`}</Typography>}
             </Box>
         </Box>
     );
