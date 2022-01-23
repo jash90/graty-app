@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Person, Face, Alarm, FlagSharp } from '@mui/icons-material';
 import { Card, Typography, Box, Chip } from '@mui/material';
-import { getCollection } from '../services/firebase';
 import { Game } from '../models/Game';
 import IconCounter from '../components/IconCounter';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { gamesState } from '../atoms';
 
 
 export default function ListGames() {
-    const [list, setList] = useRecoilState(gamesState);
+    const list = useRecoilValue(gamesState);
 
     return (
         <Box sx={{ display: 'flex', margin: 10, flexDirection: 'column' }} >

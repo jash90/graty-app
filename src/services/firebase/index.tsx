@@ -49,12 +49,9 @@ export const getCollection = async (key: string, defaultIcon = "") => {
     try {
         data = await getDocs(collection(db, key));
 
-        console.log(data)
 
         data = data.docs.map((doc: any) => {
-            console.log(doc.id, doc.data())
             return { ...doc.data(), uid: doc.id };
-
         })
 
         for (let x = 0; x < data.length; x++) {
@@ -76,8 +73,6 @@ export const addImage = async (key: string, file: any) => {
         const storageRef = ref(storage, key);
 
         data = await uploadBytes(storageRef, file);
-
-        console.log('Uploaded a blob or file!', data);
 
     } catch (err) {
         error = err;
@@ -117,7 +112,6 @@ export const signIn = async (email: string, password: string): Promise<{ data: a
         const userCredentials = await signInWithEmailAndPassword(auth, email, password)
         let admins: any = await getCollection("admins")
         admins = admins.data.map((admin: any) => admin.id)
-        console.log({ admins, uid: userCredentials.user.uid, admin: admins.includes(userCredentials.user.uid) })
         return { data: { ...userCredentials.user.toJSON(), admin: admins.includes(userCredentials.user.uid) }, error: null }
     } catch (error) {
         return { data: null, error }

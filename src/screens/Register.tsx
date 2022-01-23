@@ -41,9 +41,7 @@ export default function Register() {
         onSubmit: async ({ email, password }) => {
             const { data, error } = await signUp(email, password);
             if (!error) {
-                console.log(data)
             } else {
-                console.log(error.code);
                 switch (error.code as string) {
                     case SignUpError.emailAlreadyUse:
                         formik.setFieldError('email', 'Email już zarejestrowany');

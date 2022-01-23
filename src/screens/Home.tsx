@@ -6,7 +6,7 @@ import * as Yup from 'yup'
 import { getCollection, signIn } from '../services/firebase';
 import { handleChangeAndResetPassword } from '../utils/function';
 import { userState, gamesState } from '../atoms';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState, useRecoilState } from 'recoil';
 
 const Line = styled('div')({
     marginTop: 20,
@@ -18,14 +18,14 @@ const Line = styled('div')({
 
 export default function Home() {
     const [user, setUser] = useRecoilState(userState);
-    const [list, setList] = useRecoilState(gamesState);
+    const setList = useSetRecoilState(gamesState);
 
     useEffect(() => {
         getCollection('games', "https://cdn-icons-png.flaticon.com/512/3430/3430778.png").then((data: any) => {
             setList(data.data)
             console.log(data.data)
         })
-    }, [])
+    }, [setList])
 
 
 
@@ -48,12 +48,9 @@ export default function Home() {
         validateOnChange: false,
         onSubmit: async ({ email, password }) => {
             const { data, error } = await signIn(email, password);
-            console.log({ data, error });
             if (!error) {
                 setUser(JSON.parse(JSON.stringify(data)))
-                console.log(user)
             } else {
-                console.log(error.code);
                 switch (error.code as string) {
                     case SignInError.invalidEmail:
                         formik.setFieldError('email', 'Niepoprawny email lub hasło');

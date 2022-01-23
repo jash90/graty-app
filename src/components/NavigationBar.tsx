@@ -1,13 +1,8 @@
 import React from 'react';
-import { Typography, Toolbar, Box, AppBar, Link, Button } from '@mui/material';
-import { userState } from '../atoms';
-import { useRecoilState } from 'recoil';
+import { Typography, Toolbar, Box, AppBar} from '@mui/material';
 import ButtonLink from './ButtonLink';
 
 export default function NavigationBar() {
-
-    const [user, setUser] = useRecoilState(userState);
-
     return (
         <AppBar position="static">
             <Toolbar>

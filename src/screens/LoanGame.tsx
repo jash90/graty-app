@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
-import { Typography, Box, Button, TextField, styled, Autocomplete, } from '@mui/material';
-import { useFormik } from 'formik';
-import { SignInError } from '../models/SignInError';
-import * as Yup from 'yup'
-import { signIn } from '../services/firebase';
-import { handleChangeAndResetPassword } from '../utils/function';
+import { Typography, Box, Button, TextField, Autocomplete, } from '@mui/material';
 import { gamesState, userState } from '../atoms';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
@@ -18,9 +13,6 @@ export default function LoanGame() {
     const [user, setUser] = useRecoilState(userState);
     const [startDate, setStartDate] = useState<Date | null>(new Date());
     const [endDate, setEndDate] = useState<Date | null>(new Date());
-
-    console.log(game)
-
 
     return (
         <Box sx={{ display: 'flex', margin: 10, flexDirection: 'row' }} >
