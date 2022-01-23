@@ -5,6 +5,7 @@ import * as Yup from 'yup'
 import { signUp } from '../services/firebase';
 import { SignUpError } from '../models/SignUpError';
 import { handleChangeAndResetPassword } from '../utils/function';
+import { useNavigate } from "react-router-dom"
 
 const Line = styled('div')({
     marginTop: 20,
@@ -15,6 +16,7 @@ const Line = styled('div')({
 })
 
 export default function Register() {
+    const navigate = useNavigate();
 
     const formik = useFormik({
         initialValues: {
@@ -39,8 +41,10 @@ export default function Register() {
         validateOnBlur: false,
         validateOnChange: false,
         onSubmit: async ({ email, password }) => {
-            const { data, error } = await signUp(email, password);
+            const { error } = await signUp(email, password);
             if (!error) {
+                navigate("/")
+
             } else {
                 switch (error.code as string) {
                     case SignUpError.emailAlreadyUse:

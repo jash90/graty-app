@@ -7,6 +7,7 @@ import { getCollection, signIn } from '../services/firebase';
 import { handleChangeAndResetPassword } from '../utils/function';
 import { userState, gamesState } from '../atoms';
 import { useSetRecoilState, useRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 
 const Line = styled('div')({
     marginTop: 20,
@@ -19,6 +20,7 @@ const Line = styled('div')({
 export default function Home() {
     const [user, setUser] = useRecoilState(userState);
     const setList = useSetRecoilState(gamesState);
+    const navigate = useNavigate();
 
     useEffect(() => {
         getCollection('games', "https://cdn-icons-png.flaticon.com/512/3430/3430778.png").then((data: any) => {
@@ -50,6 +52,7 @@ export default function Home() {
             const { data, error } = await signIn(email, password);
             if (!error) {
                 setUser(JSON.parse(JSON.stringify(data)))
+                navigate("/")
             } else {
                 switch (error.code as string) {
                     case SignInError.invalidEmail:
