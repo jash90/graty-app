@@ -22,11 +22,10 @@ export default function AddGame() {
 
 
     const saveGame = async () => {
-        const { doc, error, loading } = await addDocument('games', { name, minGamers, maxGamers, minTimeGame, maxTimeGame, age, country, avg, integration, complexity, description });
+        const { doc, } = await addDocument('games', { name, minGamers, maxGamers, minTimeGame, maxTimeGame, age, country, avg, integration, complexity, description });
 
         if (!!doc) {
-            const { data, error } = await addImage(doc.id, file);
-            console.log(data, error)
+           await addImage(doc.id, file);
         }
 
     };

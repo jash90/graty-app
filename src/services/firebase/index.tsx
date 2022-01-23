@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app"
 import { addDoc, collection, getDocs, getFirestore, } from "firebase/firestore"
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage"
-import "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -20,9 +20,11 @@ export const firebaseConfig = {
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 
-export const db = getFirestore(app);
+const db = getFirestore(app);
 
-export const storage = getStorage();
+const storage = getStorage();
+
+const auth = getAuth();
 
 
 
@@ -48,21 +50,13 @@ export const getCollection = async (key: string) => {
         data = await getDocs(collection(db, key));
 
         data = data.docs.map((doc: any) => {
-            let link = "https://cdn-icons-png.flaticon.com/512/3430/3430778.png"
-            getLink(doc.id).then(image => {
-                if (!!image?.data) {
-                    link = image.data
-
-                    console.log("dupa", image.data)
-                }
-            }).catch(error => {
-                console.log("dupa", error)
-
-            })
-
-            return { ...doc.data(), id: doc.id, link };
+            return { ...doc.data(), id: doc.id };
 
         })
+
+        for (let x = 0; x < data.length; x++) {
+            data[x].link = await getLink(data[x].id);
+        }
 
     } catch (err) {
         error = err;
@@ -92,16 +86,34 @@ export const addImage = async (key: string, file: any) => {
 }
 
 export const getLink = async (key: string) => {
-    let data: any, error: any;
+    let data: any;
 
     try {
         data = await getDownloadURL(ref(storage, key));
 
     } catch (err) {
-
+        data = "https://cdn-icons-png.flaticon.com/512/3430/3430778.png";
     }
 
 
-    return { data, };
+    return data;
 
+}
+
+export const signUp = async (email: string, password: string): Promise<{data:any, error:any}> => {
+    try {
+        const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
+        return {data : userCredentials.user, error:''}
+    } catch (error) {
+        return { data: '', error }
+    }
+}
+
+export const signIn = async (email: string, password: string): Promise<{ data: any, error: any }> => {
+    try {
+        const userCredentials = await signInWithEmailAndPassword(auth, email, password)
+        return { data: userCredentials.user, error: '' }
+    } catch (error) {
+        return { data: '', error }
+    }
 }

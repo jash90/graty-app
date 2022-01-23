@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Person, Face, Alarm, FlagSharp } from '@mui/icons-material';
 import { Card, Typography, Box, Chip } from '@mui/material';
-import { getCollection, getLink } from '../services/firebase';
+import { getCollection } from '../services/firebase';
 import { Game } from '../models/Game';
 import IconCounter from '../components/IconCounter';
 
@@ -12,20 +12,14 @@ export default function ListGames() {
     useEffect(() => {
         getCollection('games').then((data: any) => {
             setList(data.data)
-            console.log({ data: data.data })
         })
-
-
     }, []);
-
-
-
 
     return (
         <Box sx={{ display: 'flex', margin: 10, flexDirection: 'column' }} >
             <Typography variant="h3" sx={{ fontWeight: 'bold', marginTop: 2, marginBottom: 2 }}>Lista Gier</Typography>
-            {list.map((game: Game) => <Card sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'column', lg: 'row' }, alignItems: 'center', marginTop: 1, marginBottom: 1, width: '100%' }} key={game.name}>
-                <img src="https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTJWLbLAlTc-uNMrE957GEftv9gWR6Nx2-ckPkX7-8IhPjtXbIYCrQfLrrPfijyxmxA-C81pWs-7roNjAcQ7l26WTattTIp&usqp=CAc" width="200" height="200" alt="scythe" />
+            {list.map((game: Game) => <Card sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'column', lg: 'row' }, alignItems: 'center', marginTop: 1, marginBottom: 1, width: '100%' }} key={game.id}>
+                <img src={game.link} width="200" height="200" alt={game.id} />
                 <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: 1.5, width: '100%' }}>
                     <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, padding: 2, width: '100%' }}>
                         <Box sx={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
