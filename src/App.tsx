@@ -14,7 +14,7 @@ import Register from "./screens/Register";
 export default function App() {
   const user = useRecoilValue(userState);
   const visibleAuth = !!user;
-  const visibleRoot = !!user?.root;
+  const visibleRoot = !!user?.admin;
 
 
   return (
