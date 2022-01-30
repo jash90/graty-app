@@ -5,14 +5,15 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DateTimePicker from '@mui/lab/DateTimePicker';
+import { addHours } from 'date-fns'
 
 
 export default function LoanGame() {
     const [game, setGame] = useState();
     const list = useRecoilValue(gamesState);
     const [user, setUser] = useRecoilState(userState);
-    const [startDate, setStartDate] = useState<Date | null>(new Date());
-    const [endDate, setEndDate] = useState<Date | null>(new Date());
+    const [startDate, setStartDate] = useState<Date>(new Date());
+    const [endDate, setEndDate] = useState<Date>(addHours(new Date(), 2));
 
     return (
         <Box sx={{ display: 'flex', margin: 10, flexDirection: 'row' }} >
@@ -46,7 +47,7 @@ export default function LoanGame() {
                         renderInput={(props) => <TextField {...props} sx={{ width: 300, margin: 2 }} />}
                         label="Data rozpoczęcia wypożyczenia"
                         value={startDate}
-                        onChange={(newValue) => {
+                        onChange={(newValue: any) => {
                             setStartDate(newValue);
                         }}
                         disabled
@@ -57,7 +58,7 @@ export default function LoanGame() {
                         renderInput={(props) => <TextField {...props} sx={{ width: 300, margin: 2 }} />}
                         label="Data zakończenia wypożyczenia"
                         value={endDate}
-                        onChange={(newValue) => {
+                        onChange={(newValue: any) => {
                             setEndDate(newValue);
                         }}
                         ampm={false}

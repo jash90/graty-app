@@ -9,6 +9,7 @@ import Home from "./screens/Home";
 import ListGames from "./screens/ListGames";
 import LoanGame from "./screens/LoanGame";
 import NotFound from "./screens/NotFound";
+import Profile from "./screens/Profile";
 import Register from "./screens/Register";
 
 export default function App() {
@@ -25,7 +26,8 @@ export default function App() {
         {!visibleAuth && <Route path="/register" element={<Register />} />}
         <Route path="/listgames" element={<ListGames />} />
         {visibleRoot && <Route path="/addgame" element={<AddGame />} />}
-        {visibleAuth && <Route path="/loangame" element={<LoanGame />} />}
+        {visibleRoot && <Route path="/loangame" element={<LoanGame />} />}
+        {visibleAuth && <Route path="/profile" element={<Profile />} />}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

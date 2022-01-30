@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Typography, Box, Button, TextField, styled } from '@mui/material';
+import { Typography, Box, Button, TextField } from '@mui/material';
 import { useFormik } from 'formik';
 import { SignInError } from '../models/SignInError';
 import * as Yup from 'yup'
@@ -8,14 +8,7 @@ import { handleChangeAndResetPassword } from '../utils/function';
 import { userState, gamesState } from '../atoms';
 import { useSetRecoilState, useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-
-const Line = styled('div')({
-    marginTop: 20,
-    marginBottom: 20,
-    height: 1,
-    width: '100%',
-    backgroundColor: 'grey'
-})
+import { Line } from '../components/StyledComponents';
 
 export default function Home() {
     const [user, setUser] = useRecoilState(userState);
@@ -48,10 +41,11 @@ export default function Home() {
         ,
         validateOnBlur: false,
         validateOnChange: false,
-        onSubmit: async ({ email, password }) => {
+        onSubmit: async ({ email, password }:any) => {
             const { data, error } = await signIn(email, password);
             if (!error) {
                 setUser(JSON.parse(JSON.stringify(data)))
+                formik.resetForm();
                 navigate("/")
             } else {
                 switch (error.code as string) {

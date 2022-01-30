@@ -1,19 +1,12 @@
 import React from 'react';
-import { Typography, Box, Button, TextField, styled } from '@mui/material';
+import { Typography, Box, Button, TextField } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
 import { signUp } from '../services/firebase';
 import { SignUpError } from '../models/SignUpError';
 import { handleChangeAndResetPassword } from '../utils/function';
 import { useNavigate } from "react-router-dom"
-
-const Line = styled('div')({
-    marginTop: 20,
-    marginBottom: 20,
-    height: 1,
-    width: '100%',
-    backgroundColor: 'grey'
-})
+import { Line } from '../components/StyledComponents';
 
 export default function Register() {
     const navigate = useNavigate();
@@ -40,7 +33,7 @@ export default function Register() {
         ,
         validateOnBlur: false,
         validateOnChange: false,
-        onSubmit: async ({ email, password }) => {
+        onSubmit: async ({ email, password }: any) => {
             const { error } = await signUp(email, password);
             if (!error) {
                 navigate("/")

@@ -1,12 +1,11 @@
 import { initializeApp } from "firebase/app"
-import { addDoc, collection, getDocs, getFirestore, } from "firebase/firestore"
+import { addDoc, collection, getDocs, getFirestore, doc, getDoc } from "firebase/firestore"
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage"
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, User as UserFirebase } from "firebase/auth";
+import { User } from "../../models/User";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
+
 export const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
     authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -43,11 +42,11 @@ export const addDocument = async (key: string, data: object) => {
 
 
 
-export const getCollection = async (key: string, defaultIcon = "") => {
+export const getCollection = async (collectionName: string, defaultIcon = "") => {
     let data: any, error: any;
 
     try {
-        data = await getDocs(collection(db, key));
+        data = await getDocs(collection(db, collectionName));
 
 
         data = data.docs.map((doc: any) => {
@@ -56,6 +55,28 @@ export const getCollection = async (key: string, defaultIcon = "") => {
 
         for (let x = 0; x < data.length; x++) {
             data[x].link = await getLink(data[x].id, defaultIcon);
+        }
+
+    } catch (err) {
+        error = err;
+    }
+
+
+    return { data, error };
+
+}
+
+export const getDocument = async (collectionName: string, documentName: string) => {
+    let data: any, error: any;
+
+    try {
+        const docRef = doc(db, collectionName, documentName);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            return { data: docSnap.data(), error: null };
+        } else {
+            return { data: null, error: new Error("Document not exits") };
         }
 
     } catch (err) {
@@ -98,22 +119,30 @@ export const getLink = async (key: string, defaultIcon = "") => {
 
 }
 
-export const signUp = async (email: string, password: string): Promise<{ data: any, error: any }> => {
+export const signUp = async (email: string, password: string): Promise<{ data: object|null, error: any }> => {
     try {
         const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
-        return { data: userCredentials.user, error: '' }
-    } catch (error) {
-        return { data: '', error }
+        return { data: userCredentials.user.toJSON(), error: null }
+    } catch (error:any) {
+        return { data: null, error }
     }
 }
 
-export const signIn = async (email: string, password: string): Promise<{ data: any, error: any }> => {
+export const signIn = async (email: string, password: string): Promise<{ data: User | null, error: any }> => {
     try {
         const userCredentials = await signInWithEmailAndPassword(auth, email, password)
-        let admins: any = await getCollection("admins")
-        admins = admins.data.map((admin: any) => admin.id)
-        return { data: { ...userCredentials.user.toJSON(), admin: admins.includes(userCredentials.user.uid) }, error: null }
+        let { data } = await getDocument("users", userCredentials.user.uid)
+        return { data: { ...userCredentials.user.toJSON(), ...data }, error: null }
     } catch (error) {
         return { data: null, error }
+    }
+}
+
+export const logout = async (): Promise<{ error: any }> => {
+    try {
+        await signOut(auth);
+        return { error: null }
+    } catch (error) {
+        return { error }
     }
 }

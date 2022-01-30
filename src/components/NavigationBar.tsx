@@ -1,8 +1,22 @@
-import React from 'react';
-import { Typography, Toolbar, Box, AppBar} from '@mui/material';
-import ButtonLink from './ButtonLink';
+import React, { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Typography, Toolbar, Box, AppBar } from '@mui/material';
+import NavigationButtonLink from './NavigationButtonLink';
+import { logout } from '../services/firebase';
+import { useSetRecoilState } from 'recoil';
+import { userState } from '../atoms';
 
 export default function NavigationBar() {
+    const setUser = useSetRecoilState(userState);
+    const navigate = useNavigate();
+    const signOut = useCallback(async () => {
+        const { error } = await logout();
+        if (!error) {
+            setUser(null);
+            navigate("")
+        }
+    }, [setUser, navigate])
+
     return (
         <AppBar position="static">
             <Toolbar>
@@ -15,21 +29,27 @@ export default function NavigationBar() {
                     Graty
                 </Typography>
                 <Box sx={{ flexGrow: 1 }} />
-                <ButtonLink to="/">
+                <NavigationButtonLink to="/">
                     Strona główna
-                </ButtonLink>
-                <ButtonLink to="/register" mustBeLogout>
+                </NavigationButtonLink>
+                <NavigationButtonLink to="/register" mustBeLogout>
                     Rejestracja
-                </ButtonLink>
-                <ButtonLink to="/addgame" mustBeRoot>
+                </NavigationButtonLink>
+                <NavigationButtonLink to="/addgame" mustBeRoot>
                     Dodaj Grę
-                </ButtonLink>
-                <ButtonLink to="/listgames">
+                </NavigationButtonLink>
+                <NavigationButtonLink to="/listgames">
                     Lista Gier
-                </ButtonLink>
-                <ButtonLink to="/loangame" mustBeAuth>
+                </NavigationButtonLink>
+                <NavigationButtonLink to="/loangame" mustBeRoot>
                     Wypożycz Grę
-                </ButtonLink>
+                </NavigationButtonLink>
+                <NavigationButtonLink to="/profile" mustBeAuth>
+                    Profil
+                </NavigationButtonLink>
+                <NavigationButtonLink onClick={signOut} mustBeAuth>
+                    Wyloguj się
+                </NavigationButtonLink>
             </Toolbar>
         </AppBar >
     );
