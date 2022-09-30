@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import "./App.css";
 import { userState } from "./atoms";
@@ -17,18 +17,17 @@ export default function App() {
   const visibleAuth = !!user;
   const visibleRoot = !!user?.admin;
 
-
   return (
     <>
       <NavigationBar />
       <Routes>
-        <Route path="/" element={<Home />} />
-        {!visibleAuth && <Route path="/register" element={<Register />} />}
-        <Route path="/listgames" element={<ListGames />} />
-        {visibleRoot && <Route path="/addgame" element={<AddGame />} />}
-        {visibleRoot && <Route path="/loangame" element={<LoanGame />} />}
-        {visibleAuth && <Route path="/profile" element={<Profile />} />}
-        <Route path="*" element={<NotFound />} />
+        <Route path='/' element={<Home />} />
+        <Route path='/register' element={<Register />} />
+        <Route path='/listgames' element={<ListGames />} />
+        <Route path='/addgame' element={<AddGame />} />
+        <Route path='/loangame' element={<LoanGame />} />
+        <Route path='/profile' element={<Profile />} />
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </>
   );
