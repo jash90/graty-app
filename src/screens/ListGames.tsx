@@ -17,7 +17,7 @@ export default function ListGames() {
                 <img src={game.link} width="200" height="200" alt={game.uid} />
                 <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: 1.5, width: '100%' }}>
                     <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, padding: 2, width: '100%' }}>
-                        <Box sx={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
+                        <Box sx={{ display: 'flex', flex: 1, flexDirection: 'column', padding:'10px' }}>
                             <Typography variant="h5" sx={{ paddingBottom: 1, fontWeight: 'bold' }}>{game.name}</Typography>
                             <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                                 <Person sx={{ width: 30 }} />
@@ -37,13 +37,13 @@ export default function ListGames() {
                             </Box>
                         </Box>
 
-                        <Box sx={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
+                        <Box sx={{ display: 'flex', flex: 1, flexDirection: 'column', padding:'10px' }}>
                             <Typography variant="h5" sx={{ paddingBottom: 1, fontWeight: 'bold' }}>Rozgrywka</Typography>
                             <IconCounter text={'Losowość: '} count={game.avg} max={5} />
                             <IconCounter text={'Interakcja:'} count={game.integration} max={5} />
                             <IconCounter text={'Złożoność:'} count={game.complexity} max={5} />
                         </Box>
-                        <Box sx={{ display: 'flex', flex: 3, flexDirection: 'column', paddingLeft: { xs: 0, md: 2 } }}>
+                        <Box sx={{ display: 'flex', flex: 3, flexDirection: 'column', padding:'10px' }}>
                             <Typography variant="h5" sx={{ paddingBottom: 1, fontWeight: 'bold' }}>Opis</Typography>
                             <Typography sx={{ overflow: 'break-word' }}>{game.description}</Typography>
                         </Box>

@@ -54,7 +54,7 @@ export const getCollection = async (collectionName: string, defaultIcon = "") =>
         })
 
         for (let x = 0; x < data.length; x++) {
-            data[x].link = await getLink(data[x].id, defaultIcon);
+            data[x].link = await getLink(data[x].uid, defaultIcon);
         }
 
     } catch (err) {
@@ -92,7 +92,6 @@ export const addImage = async (key: string, file: any) => {
     let data: any, error: any;
     try {
         const storageRef = ref(storage, key);
-
         data = await uploadBytes(storageRef, file);
 
     } catch (err) {
@@ -109,7 +108,6 @@ export const getLink = async (key: string, defaultIcon = "") => {
 
     try {
         data = await getDownloadURL(ref(storage, key));
-
     } catch (err) {
         data = defaultIcon;
     }
